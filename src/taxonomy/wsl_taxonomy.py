@@ -4,16 +4,16 @@ from enum import Enum
 
 # WSL Taxonomy
 
-class author_gender(str, Enum):
+class Author_gender(str, Enum):
     male = 'Male'
     female = 'Female'
     unknown = 'Unknown'
 
-class author(BaseModel):
+class Author(BaseModel):
     name: str
-    gender: Optional[author_gender]
+    gender: Optional[Author_gender]
 
-class publication_type(str, Enum):
+class Publication_type(str, Enum):
     research_article  = 'Research article'
     article_in_press  = 'Article-in-Press (AiP)'
     book              = 'Book'
@@ -35,12 +35,12 @@ class publication_type(str, Enum):
     policy_brief      = 'Policy brief'
     factsheet         = 'Factsheet'
 
-class science_type(str, Enum):
+class Science_type(str, Enum):
     natural_science = 'Natural science'
     social_science  = 'Social science'
     formal_science  = 'Formal science'
 
-class scientif_discipline(str, Enum):
+class Scientif_discipline(str, Enum):
     ## TODO : Add hierarchy between science_type and scientific_discipline
     # Social science
     anthropology         = 'Anthropology'
@@ -77,7 +77,7 @@ class scientif_discipline(str, Enum):
     cryptography        = 'Cryptography'
 
 
-class regional_group(str, Enum): #Mandatory:	YES, Type:	EXCLUSIVE
+class Regional_group(str, Enum): #Mandatory:	YES, Type:	EXCLUSIVE
     world = 'World'
     african_states = 'African States'
     asia_pacific_states = 'Asia-Pacific States'
@@ -87,7 +87,7 @@ class regional_group(str, Enum): #Mandatory:	YES, Type:	EXCLUSIVE
     western_european = 'Western European'
     oceania = 'Oceania'
 
-class geographical_scope(str, Enum): #Mandatory:	YES, Type:	MUTLIPLE CHOICE
+class Geographical_scope(str, Enum): #Mandatory:	YES, Type:	MUTLIPLE CHOICE
     global_scope = 'Global'
     countries = 'Countries'
     large_regions = 'Large regions'
@@ -96,7 +96,7 @@ class geographical_scope(str, Enum): #Mandatory:	YES, Type:	MUTLIPLE CHOICE
 
 
 
-class studied_country(str, Enum): #Mandatory:	YES, Type:	MUTLIPLE CHOICE
+class Studied_country(str, Enum): #Mandatory:	YES, Type:	MUTLIPLE CHOICE
     afghanistan = "Afghanistan"
     albania = "Albania"
     algeria = "Algeria"
@@ -292,7 +292,7 @@ class studied_country(str, Enum): #Mandatory:	YES, Type:	MUTLIPLE CHOICE
     zimbabwe = "Zimbabwe"
 
 
-class human_needs(str, Enum):
+class Human_needs(str, Enum):
     nutrition = 'Nutrition'
     shelter_and_living_conditions = 'Shelter and living conditions'
     hygiene = 'Hygiene'
@@ -303,7 +303,7 @@ class human_needs(str, Enum):
     mobility = 'Mobility'
 
 
-class studied_sector(str, Enum):
+class Studied_sector(str, Enum):
     agriculture_forestry_fishing = 'Agriculture, forestry, fishing'
     mining_and_quarrying = 'Mining and quarrying'
     manufacturing = 'Manufacturing'
@@ -326,7 +326,7 @@ class studied_sector(str, Enum):
     household_employment_goods_services_for_own_use = 'Household employment, goods/services for own use'
     extraterritorial_organizations = 'Extraterritorial organizations'
 
-class studied_policy_area(str, Enum):
+class Studied_policy_area(str, Enum):
     jobs = 'Jobs'
     social_rights = 'Social Rights'
     economy = 'Economy'
@@ -345,7 +345,7 @@ class studied_policy_area(str, Enum):
     education_and_youth = 'Education and Youth'
     climate_action = 'Climate Action'
 
-class natural_ressource(str, Enum):
+class Natural_ressource(str, Enum):
     freshwater = 'Freshwater'
     marine_resources = 'Marine Resources'
     wetlands = 'Wetlands'
@@ -357,7 +357,7 @@ class natural_ressource(str, Enum):
     urban_land = 'Urban Land'
     biomass = 'Biomass'
 
-class wellbeing(str, Enum):
+class Wellbeing(str, Enum):
     housing = 'Housing'
     jobs = 'Jobs'
     education = 'Education'
@@ -370,14 +370,14 @@ class wellbeing(str, Enum):
     health = 'Health'
     safety = 'Safety'
 
-class justice_consideration(str, Enum):
+class Justice_consideration(str, Enum):
     distributional = 'Distributional'
     procedural = 'Procedural'
     corrective = 'Corrective'
     recognitional = 'Recognitional'
     transitional = 'Transitional'
 
-class planetary_boundaries(str, Enum):
+class Planetary_boundaries(str, Enum):
     land_system_change = 'Land-System Change'
     climate_change = 'Climate Change'
     biosphere_integrity = 'Biosphere Integrity'
@@ -388,27 +388,27 @@ class planetary_boundaries(str, Enum):
     ozone_depletion = 'Ozone Depletion'
     introduction_of_novel_entities = 'Introduction of Novel Entities'
 
-class paper(BaseModel):
+class Paper(BaseModel):
     title: str
-    authors: list[author]
+    authors: list[Author]
     abstract: str
     year_of_publication: int
     peer_reviewed: bool
     grey_literature: bool
-    publication_type: publication_type
+    publication_type: Publication_type
     sufficiency_mentioned: bool
-    science_type: science_type
-    scientific_discipline: scientif_discipline
-    regional_group: regional_group
-    geographical_scope: geographical_scope
-    studied_country: list[studied_country]
-    human_needs: list[human_needs]
-    studied_sector: list[studied_sector]
-    studied_policy_area: list[studied_policy_area]
-    natural_ressource: list[natural_ressource]
-    wellbeing: list[wellbeing]
-    justice_consideration: Optional[list[justice_consideration]]
-    planetary_boundaries: Optional[list[planetary_boundaries]]
+    science_type: Science_type
+    scientific_discipline: Scientif_discipline
+    regional_group: Regional_group
+    geographical_scope: Geographical_scope
+    studied_country: list[Studied_country]
+    human_needs: list[Human_needs]
+    studied_sector: list[Studied_sector]
+    studied_policy_area: list[Studied_policy_area]
+    natural_ressource: list[Natural_ressource]
+    wellbeing: list[Wellbeing]
+    justice_consideration: Optional[list[Justice_consideration]]
+    planetary_boundaries: Optional[list[Planetary_boundaries]]
 
 
     ## Optional fields
@@ -428,4 +428,3 @@ class paper(BaseModel):
     source_publisher_country: Optional[str]
     source_publisher_contact: Optional[str]
     source_publisher_contact_email: Optional[str]
-
