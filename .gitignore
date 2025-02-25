@@ -15,3 +15,5 @@ extracted_outputs
 .idea
 # VS Code
 .vscode
+env*
+*venv*
