@@ -2,7 +2,7 @@ import argparse
 
 from ollama import chat
 
-import pdfextraction.taxonomy.wsl_taxonomy as taxonomy
+from pdfextraction.taxonomy import wsl_taxonomy as taxonomy
 
 
 def parse_args():
