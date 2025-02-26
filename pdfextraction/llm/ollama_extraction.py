@@ -2,7 +2,7 @@ import argparse
 
 from ollama import chat
 
-import src.taxonomy.wsl_taxonomy as taxonomy
+import pdfextraction.taxonomy.wsl_taxonomy as taxonomy
 
 
 def parse_args():
@@ -25,10 +25,10 @@ def parse_args():
     return parser.parse_args()
 
 def open_file(text_path):
-    with open(text_path, "rb") as f:
-        return f.read()
+    with open(text_path, "r") as f:
+        txt = f.read()
     
-    return text_path
+    return txt
 
 def extract_ollama_from_paper(text_path, model, tax):
 
