@@ -33,6 +33,16 @@ def open_file(text_path):
 def extract_ollama_from_paper(text_path, model, tax):
 
     text = open_file(text_path)
+    prompt = f"""
+    You are given a scientific paper. The first page corresponds to the where
+    the title, authors, and abstract are located. The rest of the paper is
+    divided into sections. Each section has a title and a body. The body of the
+    section may contain text, figures, tables, and equations.
+    You are tasked with extracting information from the paper.
+    Here is the paper:
+    {text}
+    """
+
     response = chat(
         messages=[
             {
