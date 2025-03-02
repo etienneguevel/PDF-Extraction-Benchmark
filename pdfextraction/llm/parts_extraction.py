@@ -77,10 +77,11 @@ def extract_info_from_list(l, model, tax):
 def main():
 
     args = parse_args()
+    tax = taxonomy.Paper
     output = extract_info_from_list(
         parts,
         args.model,
-        taxonomy
+        tax
     )
 
     if not args.output_path:
