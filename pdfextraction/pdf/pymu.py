@@ -1,10 +1,13 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 
 import pymupdf4llm
 
+
+regex_parts = r"\*\*(\d+)\.([^*]+)\*\*\s*([\s\S]+?)(?=\n\*\*|\z)"
 
 def get_args_parser():
     parser = argparse.ArgumentParser(description="Extract text from a PDF file.")
@@ -52,6 +55,18 @@ def get_pymupdf4llm(
     )
     return content_md
 
+def split_txt(txt, regex):
+    matches = re.match(regex, txt)
+    blocks = []
+    previous_match = "1st page"
+    
+    for match in matches:
+        part, txt = re.split(match, txt)
+        blocks.append({"part": previous_match, "text": part})
+        previous_match = match
+
+    return blocks
+
 
 def main():
     parser = get_args_parser()
@@ -78,6 +93,7 @@ def main():
         json_name = folder_name / (article_name + ".json")
 
         with open(text_name, "w") as f:
+            print(f"saving at {text_name}")
             f.write(text)
 
         with open(json_name, "w") as f:
