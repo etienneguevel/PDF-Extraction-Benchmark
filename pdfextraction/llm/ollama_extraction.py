@@ -47,7 +47,7 @@ def extract_ollama_from_paper(text_path, model, tax):
         messages=[
             {
                 "role": "user",
-                "content": text,
+                "content": prompt,
             }
         ],
         model=model,
