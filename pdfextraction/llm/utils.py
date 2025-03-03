@@ -9,5 +9,5 @@ def open_file(text_path: str) -> str:
 
 def ollama_available(model_name: str) -> bool:
     models = ollama.list().get("models", [])
-    return any(model["name"] == model_name for model in models)
+    return any(model["model"] == model_name for model in models)
     

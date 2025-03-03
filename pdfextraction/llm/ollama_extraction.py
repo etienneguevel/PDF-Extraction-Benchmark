@@ -130,12 +130,12 @@ def main():
     paper = extract_ollama_from_paper(prompt, args.model, tax)
     
     # print or save the output
-    if not args.output_path:
+    if not args.output_name:
         print(paper)
     
     # save the result with the given name
     else:
-        output_path = args.output_path.split(".")[0] + ".json"
+        output_path = args.output_name.split(".")[0] + ".json"
         with open(output_path, "w") as f:
             f.write(paper.model_dump_json())
 
