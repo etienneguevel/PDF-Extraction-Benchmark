@@ -1,4 +1,5 @@
 import argparse
+import re
 
 from ollama import chat
 from pydantic import BaseModel
@@ -18,6 +19,13 @@ def parse_args():
         help="Taxonomy to use for extraction"
     )
     parser.add_argument(
+        "--prompt",
+        type=str,
+        choices=["basic", "main_parts"],
+        default=None,
+        help="Type of prompt to use for extraction"
+    )
+    parser.add_argument(
         "--output-name",
         type=str,
         default=None,
@@ -27,12 +35,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def extract_ollama_from_paper(
-    text: str, model: str, tax: BaseModel
-) -> BaseModel:
-    
-    if not ollama_available(model):
-        raise AttributeError(f"{model} is not among the local ollama models.")
+def basic_prompt(text: str) -> str:
 
     prompt = f"""
     You are given a scientific paper. The first page corresponds to the where
@@ -43,6 +46,35 @@ def extract_ollama_from_paper(
     Here is the paper:
     {text}
     """
+
+    return prompt
+
+
+def main_parts_prompt(text: str) -> str:
+    # extract the main sections from the pdf
+    pattern_parts = r"(\*\*\d+\.(?P<title>[^*]+)\*\*[\s\S]+?)(?=\n\*\*|$)"
+    sections = re.findall(pattern_parts, text)
+    main_parts = ["results", "intro", "conclusion"]
+    txt = "\n".join([t for t, title in sections if any([m in title.lower() for m in main_parts])])
+
+    prompt = f"""
+    You are given parts from a scientific paper, you are tasked with
+    extracting information from these parts.
+    Here is the text:
+    {txt}
+    """
+    
+    return prompt
+
+
+def extract_ollama_from_paper(
+    prompt: str, model: str, tax: BaseModel
+) -> BaseModel:
+    
+    if not ollama_available(model):
+        raise AttributeError(f"{model} is not among the local ollama models.")
+
+    
 
     response = chat(
         messages=[
@@ -79,7 +111,14 @@ def main():
 
     # open and process the text
     txt = open_file(args.text_path)
-    paper = extract_ollama_from_paper(txt, args.model, tax)
+
+    if args.prompt == "main_parts":
+        prompt = main_parts_prompt(txt)
+    
+    else:
+        prompt = basic_prompt(txt)
+
+    paper = extract_ollama_from_paper(prompt, args.model, tax)
     
     # print or save the output
     if not args.output_path:
